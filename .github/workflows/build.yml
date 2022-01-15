@@ -19,7 +19,7 @@ jobs:
     
     - name: Build
       run: |
-        dotnet build
+        dotnet build src
 
     - name: Build with workaround
       run: |
@@ -28,7 +28,7 @@ jobs:
           echo Unsetting GITHUB_REF
           unset GITHUB_REF
         fi
-        dotnet build
+        dotnet build src
 
     - name: On Tag only
       id: release
