@@ -26,10 +26,10 @@ jobs:
     - name: Build with workaround
       run: |
         # Workaround for https://github.com/GitTools/GitVersion/issues/2838
-        if [[ $GITHUB_REF_TYPE == tag ]]; then
-          echo Unsetting GITHUB_REF
-          unset GITHUB_REF
-        fi
+        # if [[ $GITHUB_REF_TYPE == tag ]]; then
+        #   echo Unsetting GITHUB_REF
+        #   unset GITHUB_REF
+        # fi
         dotnet build src
 
     - name: On Tag only
