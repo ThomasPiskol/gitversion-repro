@@ -22,14 +22,22 @@ jobs:
       with:
         dotnet-version: |
           6.0.x
+    
+    - name: Debug
+      run: |
+        printenv
 
     - name: Build with workaround
       run: |
         # Workaround for https://github.com/GitTools/GitVersion/issues/2838
-        # if [[ $GITHUB_REF_TYPE == tag ]]; then
-        #   echo Unsetting GITHUB_REF
-        #   unset GITHUB_REF
-        # fi
+        if [[ $GITHUB_REF_TYPE == tag ]]; then
+          echo Unsetting GITHUB_REF because of tag event
+          unset GITHUB_REF
+        fi
+        if [[ $GITHUB_REF == refs/pull/* ]]; then
+          echo Unsetting GITHUB_REF because of PR event
+          unset GITHUB_REF
+        fi
         dotnet build src
 
     - name: On Tag only
@@ -37,3 +45,7 @@ jobs:
       if: github.event_name == 'push' && github.ref_type == 'tag'
       run: |
         echo 'SemVer: ${{ env.GitVersion_SemVer }}'
+
+    - name: Debug
+      run: |
+        printenv
