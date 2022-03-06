@@ -34,10 +34,10 @@ jobs:
           echo Unsetting GITHUB_REF because of tag event
           unset GITHUB_REF
         fi
-        # if [[ $GITHUB_REF == refs/pull/* ]]; then
-        #   echo Unsetting GITHUB_REF because of PR event
-        #   unset GITHUB_REF
-        # fi
+        if [[ $GITHUB_REF == refs/pull/* ]]; then
+          echo Unsetting GITHUB_REF because of PR event
+          unset GITHUB_REF
+        fi
         dotnet build src
 
     - name: On Tag only
@@ -45,3 +45,7 @@ jobs:
       if: github.event_name == 'push' && github.ref_type == 'tag'
       run: |
         echo 'SemVer: ${{ env.GitVersion_SemVer }}'
+
+    - name: Debug
+      run: |
+        printenv
